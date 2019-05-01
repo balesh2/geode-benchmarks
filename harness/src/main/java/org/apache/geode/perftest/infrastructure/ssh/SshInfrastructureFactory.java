@@ -35,10 +35,12 @@ public class SshInfrastructureFactory implements InfrastructureFactory {
   public SshInfrastructureFactory(String user, String... hosts) {
     Set<String> tempHosts = new HashSet<>(Arrays.asList(hosts));
     String clientLocation = hosts[hosts.length-1];
+    System.out.println("Client Location: " + clientLocation);
     for(int i=1; i<32; i++) {
       tempHosts.add(clientLocation);
     }
     this.hosts = new ArrayList<>(tempHosts);
+    System.out.println("Host length: " + this.hosts.size());
     this.user = user;
   }
 
