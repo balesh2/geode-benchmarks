@@ -144,9 +144,14 @@ REPO=$(fixRepoName ${REPO})
 SSH_OPTIONS="-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ~/.geode-benchmarks/${TAG}-privkey.pem"
 HOSTS=`aws ec2 describe-instances --query 'Reservations[*].Instances[*].PrivateIpAddress' --filter "Name=tag:geode-benchmarks,Values=${TAG}" --output text`
 HOSTS=$(echo ${HOSTS} | tr ' ' ',')
+CLIENT_IP=${HOSTS##* } # greedy trim of host lists to the *last* occurrence of ' ' (space)
+for i in {1..31}; # inclusive range, create hosts 1-31 since 0 already is in the list of hosts
+  do HOSTS+=CLIENT_IP;
+done;
 FIRST_INSTANCE=`aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --filter "Name=tag:geode-benchmarks,Values=${TAG}" --output text | cut -f 1`
 
 echo "FIRST_INSTANCE=${FIRST_INSTANCE}"
+echo "CLIENT_IP=${CLIENT_IP}"
 echo "HOSTS=${HOSTS}"
 
 if [[ -z "${VERSION}" ]]; then
