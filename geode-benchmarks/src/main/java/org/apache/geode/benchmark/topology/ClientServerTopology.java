@@ -58,9 +58,7 @@ public class ClientServerTopology {
 
     testConfig.before(new StartLocator(LOCATOR_PORT), LOCATOR);
     testConfig.before(new StartServer(LOCATOR_PORT), SERVER);
-    for(int i=0; i<NUM_CLIENTS; i++) {
-      testConfig.before(new StartClient(LOCATOR_PORT), CLIENT);
-    }
+    testConfig.before(new StartClient(LOCATOR_PORT), CLIENT);
   }
 
   private static final String[] appendIfNotEmpty(String[] a, String b) {
