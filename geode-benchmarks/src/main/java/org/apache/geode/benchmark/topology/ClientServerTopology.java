@@ -44,7 +44,7 @@ public class ClientServerTopology {
 
   static final int NUM_LOCATORS = 1;
   static final int NUM_SERVERS = 2;
-  static final int NUM_CLIENTS = Runtime.getRuntime().availableProcessors() * 4;
+  static final int NUM_CLIENTS = 32;
 
   public static void configure(TestConfig testConfig) {
     testConfig.role(LOCATOR, NUM_LOCATORS);
