@@ -48,7 +48,8 @@
         "sudo update-java-alternatives -s java-1.8.0-openjdk-amd64",
         "sudo mv /tmp/defaults.cfg /etc/cloud/cloud.cfg.d/defaults.cfg",
         "sudo sh -c \"echo 'StrictHostKeyChecking no' >> /etc/ssh/ssh_config\"",
-        "sudo sh -c \"echo 'net.ipv4.tcp_syncookies = 0' >> /etc/sysctl.conf\""
+        "sudo sh -c \"echo 'net.ipv4.tcp_syncookies = 0' >> /etc/sysctl.conf\"",
+        "sudo sh -c \"echo 'MaxStartups 100:30:100' >> /etc/ssh/sshd_config\""
       ]
     }
   ]
