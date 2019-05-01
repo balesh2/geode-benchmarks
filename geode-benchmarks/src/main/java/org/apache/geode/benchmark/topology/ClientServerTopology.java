@@ -44,7 +44,7 @@ public class ClientServerTopology {
 
   static final int NUM_LOCATORS = 1;
   static final int NUM_SERVERS = 2;
-  static final int NUM_CLIENTS = 1;
+  static final int NUM_CLIENTS = Runtime.getRuntime().availableProcessors() * 4;
 
   public static void configure(TestConfig testConfig) {
     testConfig.role(LOCATOR, NUM_LOCATORS);
@@ -58,7 +58,9 @@ public class ClientServerTopology {
 
     testConfig.before(new StartLocator(LOCATOR_PORT), LOCATOR);
     testConfig.before(new StartServer(LOCATOR_PORT), SERVER);
-    testConfig.before(new StartClient(LOCATOR_PORT), CLIENT);
+    for(int i=0; i<NUM_CLIENTS; i++) {
+      testConfig.before(new StartClient(LOCATOR_PORT), CLIENT);
+    }
   }
 
   private static final String[] appendIfNotEmpty(String[] a, String b) {
