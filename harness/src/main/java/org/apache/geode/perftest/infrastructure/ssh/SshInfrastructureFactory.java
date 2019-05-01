@@ -30,11 +30,12 @@ public class SshInfrastructureFactory implements InfrastructureFactory {
   private final String user;
 
   public SshInfrastructureFactory(String user, String... hosts) {
-    this.hosts = Arrays.asList(hosts);
+    List<String> tempHosts = Arrays.asList(hosts);
     String clientLocation = hosts[hosts.length-1];
     for(int i=1; i<32; i++) {
-      this.hosts.add(clientLocation);
+      tempHosts.add(clientLocation);
     }
+    this.hosts = tempHosts;
     this.user = user;
   }
 
