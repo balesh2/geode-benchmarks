@@ -24,7 +24,9 @@ import java.util.List;
 import java.util.Objects;
 
 public class BenchmarkRunResult implements Serializable {
+  private final double PERCENT_TOLERANCE = 5.00;
   private final List<BenchmarkResult> benchmarkResults = new ArrayList<>();
+  private Boolean highWater;
 
   public BenchmarkResult addBenchmark(String name) {
     final BenchmarkResult benchmarkResult = new BenchmarkResult(name);
@@ -32,17 +34,30 @@ public class BenchmarkRunResult implements Serializable {
     return benchmarkResult;
   }
 
+  public Boolean isHighWater() {
+    if(highWater != null) {
+      return highWater;
+    } else {
+      throw new IllegalStateException("BenchmarkRunResult.writeResult(Writer) must be called prior to this method.");
+    }
+  }
+
   public void writeResult(Writer output) throws IOException {
     PrintWriter stream = new PrintWriter(output);
     for (BenchmarkResult benchmarkResult : benchmarkResults) {
       stream.println(benchmarkResult.name);
       for (ProbeResult probeResult : benchmarkResult.probeResults) {
+        double difference = probeResult.getDifference();
+        if(difference <= PERCENT_TOLERANCE) {
+          highWater = false;
+        }
         stream.print(String.format("  %30s", probeResult.description));
         stream.print(String.format("  Baseline: %12.2f", probeResult.baseline));
         stream.print(String.format("  Test: %12.2f", probeResult.test));
-        stream.print(String.format("  Difference: %+6.1f%%", probeResult.getDifference() * 100));
+        stream.print(String.format("  Difference: %+6.1f%%", difference * 100));
         stream.println();
       }
+      highWater = true;
     }
 
     output.flush();

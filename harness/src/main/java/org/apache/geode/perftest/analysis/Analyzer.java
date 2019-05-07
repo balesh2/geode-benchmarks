@@ -64,6 +64,9 @@ public class Analyzer {
     BenchmarkRunResult benchmarkRunResult =
         analyzer.analyzeTestRun(baselineResultDir, testResultDir);
     benchmarkRunResult.writeResult(new PrintWriter(System.out));
+    if(benchmarkRunResult.isHighWater()) {
+      // put this SHA to AWS
+    }
     /* throw exc if failed? */
 
     StringBuilder message = new StringBuilder();
