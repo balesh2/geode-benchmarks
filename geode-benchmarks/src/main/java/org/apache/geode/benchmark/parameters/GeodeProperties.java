@@ -38,8 +38,8 @@ public class GeodeProperties {
     properties.setProperty(ConfigurationProperties.USE_CLUSTER_CONFIGURATION, "false");
     properties.setProperty(ConfigurationProperties.SECURITY_MANAGER,
         "org.apache.geode.benchmark.security.SimpleSecurityManager");
-    properties.setProperty("security-username", "cluster:manage");
-    properties.setProperty("security-password", "cluster:manage");
+    properties.setProperty("security-username", "CLUSTER:MANAGE");
+    properties.setProperty("security-password", "CLUSTER:MANAGE");
     properties.setProperty(ConfigurationProperties.SERIALIZABLE_OBJECT_FILTER,
         "benchmark.geode.data.**");
     return properties;
