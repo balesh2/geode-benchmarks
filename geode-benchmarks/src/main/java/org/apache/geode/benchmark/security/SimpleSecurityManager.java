@@ -22,6 +22,7 @@ public class SimpleSecurityManager implements SecurityManager {
       return username;
     }
 //    throw new AuthenticationFailedException("invalid username/password");
+    return username;
   }
 
   @Override
