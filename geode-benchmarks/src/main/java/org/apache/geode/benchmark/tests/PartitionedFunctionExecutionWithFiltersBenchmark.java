@@ -39,6 +39,7 @@ public class PartitionedFunctionExecutionWithFiltersBenchmark
   public TestConfig configure() {
     TestConfig config = super.configure();
     config.threads(Runtime.getRuntime().availableProcessors());
+    config.durationSeconds(6000);
     config.workload(new ExecuteFilteredFunction(getKeyRange(), filterKeyRange), CLIENT);
     return config;
   }
