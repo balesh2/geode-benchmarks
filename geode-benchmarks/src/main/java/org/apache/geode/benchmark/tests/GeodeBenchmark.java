@@ -34,7 +34,7 @@ public class GeodeBenchmark {
   /**
    * Number of threads to run benchmark.
    */
-  private static final int THREADS = 512;
+  private static final int THREADS = 1024;
 
 
   public static TestConfig createConfig() {
