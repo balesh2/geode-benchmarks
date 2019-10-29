@@ -83,6 +83,8 @@ class JVMLauncher {
   String[] buildCommand(String rmiHost, int rmiPort, JVMMapping jvmConfig) {
 
     List<String> command = new ArrayList<String>();
+    command.add("numactl");
+    command.add("--cpunodebind=0");
     command.add(System.getProperty("java.home") + "/bin/java");
     command.add("-classpath");
     command.add(jvmConfig.getLibDir() + "/*");
