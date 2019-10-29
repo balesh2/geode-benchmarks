@@ -24,12 +24,12 @@ import org.apache.geode.perftest.TestRunners;
 /**
  * Benchmark of gets on a partitioned region.
  */
-public class ExtraNoopBenchmark extends NoopBenchmark {
+public class Noop2Benchmark extends NoopBenchmark {
 
   @Test
   public void run() throws Exception {
     TestRunners.defaultRunner().runTest(this);
   }
 
-  public ExtraNoopBenchmark() {}
+  public Noop2Benchmark() {}
 }
