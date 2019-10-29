@@ -85,6 +85,7 @@ class JVMLauncher {
     List<String> command = new ArrayList<String>();
     command.add("numactl");
     command.add("--cpunodebind=0");
+    command.add("--membind=0");
     command.add(System.getProperty("java.home") + "/bin/java");
     command.add("-classpath");
     command.add(jvmConfig.getLibDir() + "/*");

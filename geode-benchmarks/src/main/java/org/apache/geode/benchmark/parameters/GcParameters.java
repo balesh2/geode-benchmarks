@@ -78,7 +78,7 @@ public class GcParameters {
         "-XX:+CMSClassUnloadingEnabled",
         "-XX:+CMSScavengeBeforeRemark",
         "-XX:CMSInitiatingOccupancyFraction=60",
-        "-XX:+UseNUMA",
+        //"-XX:+UseNUMA",
         "-XX:+ScavengeBeforeFullGC",
         "-XX:+UnlockDiagnosticVMOptions",
         "-XX:ParGCCardsPerStrideChunk=32768");
