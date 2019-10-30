@@ -93,8 +93,8 @@ public class YardstickTask implements Task {
     TestDoneProbe testDoneProbe = new TestDoneProbe();
     Collection<BenchmarkProbe> probes =
         Arrays.asList(
-            // new HdrHistogramProbe(new HdrHistogramWriter(context.getOutputDir())),
-            new ThroughputLatencyProbe(),
+             new HdrHistogramProbe(new HdrHistogramWriter(context.getOutputDir())),
+//            new ThroughputLatencyProbe(),
 //            new PercentileProbe(),
             // new VmStatProbe(),
             testDoneProbe);
