@@ -19,14 +19,19 @@ package org.apache.geode.benchmark.tasks;
 
 import java.io.Serializable;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.yardstickframework.BenchmarkDriverAdapter;
+
+import org.apache.geode.internal.util.JavaWorkarounds;
 
 
 public class NoopTask extends BenchmarkDriverAdapter implements Serializable {
 
+  public Map map = new ConcurrentHashMap();
+
   @Override
   public boolean test(Map<Object, Object> ctx) {
-    return true;
+    return JavaWorkarounds.computeIfAbsent(map, 1, k -> k) != null;
   }
 }
