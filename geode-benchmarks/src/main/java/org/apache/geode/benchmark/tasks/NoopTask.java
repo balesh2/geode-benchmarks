@@ -23,15 +23,31 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.yardstickframework.BenchmarkDriverAdapter;
 
+import org.apache.geode.StatisticDescriptor;
+import org.apache.geode.Statistics;
+import org.apache.geode.StatisticsType;
+import org.apache.geode.distributed.internal.InternalDistributedSystem;
 import org.apache.geode.internal.util.JavaWorkarounds;
 
 
 public class NoopTask extends BenchmarkDriverAdapter implements Serializable {
 
-  public Map map = new ConcurrentHashMap();
+  private final Statistics statistics;
+  private final int statisticsId;
+
+  public NoopTask() {
+    InternalDistributedSystem distributedSystem = InternalDistributedSystem.getAnyInstance();
+    StatisticDescriptor
+        statisticDescriptor = distributedSystem
+        .createLongCounter("test", "test", "ops");
+    StatisticsType statisticsType = distributedSystem.createType("test", "test", new StatisticDescriptor[]{statisticDescriptor});
+    statistics = distributedSystem.createAtomicStatistics(statisticsType);
+    statisticsId = statistics.nameToId("test");
+  }
 
   @Override
   public boolean test(Map<Object, Object> ctx) {
-    return JavaWorkarounds.computeIfAbsent(map, 1, k -> k) != null;
+    statistics.incLong(statisticsId, 1);
+    return true;
   }
 }
