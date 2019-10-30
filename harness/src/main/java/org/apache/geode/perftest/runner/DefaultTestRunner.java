@@ -125,6 +125,9 @@ public class DefaultTestRunner implements TestRunner {
 
       logger.info("Starting workload tasks...");
       runTasks(config.getWorkload(), remoteJVMs);
+      runTasks(config.getWorkload(), remoteJVMs);
+      runTasks(config.getWorkload(), remoteJVMs);
+      runTasks(config.getWorkload(), remoteJVMs);
 
       logger.info("Starting after tasks...");
       runTasks(config.getAfter(), remoteJVMs);
