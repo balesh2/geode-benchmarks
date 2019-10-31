@@ -17,26 +17,38 @@
 
 package org.apache.geode.benchmark.tasks;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.yardstickframework.BenchmarkConfiguration;
 import org.yardstickframework.BenchmarkDriverAdapter;
 
 import org.apache.geode.StatisticDescriptor;
 import org.apache.geode.Statistics;
 import org.apache.geode.StatisticsType;
+import org.apache.geode.cache.Cache;
+import org.apache.geode.cache.CacheFactory;
+import org.apache.geode.cache.client.ClientCache;
+import org.apache.geode.cache.client.ClientCacheFactory;
+import org.apache.geode.distributed.ConfigurationProperties;
+import org.apache.geode.distributed.DistributedSystem;
 import org.apache.geode.distributed.internal.InternalDistributedSystem;
 import org.apache.geode.internal.util.JavaWorkarounds;
 
 
 public class NoopTask extends BenchmarkDriverAdapter implements Serializable {
 
-  private final Statistics statistics;
-  private final int statisticsId;
+  private  Statistics statistics;
+  private  int statisticsId;
 
-  public NoopTask() {
-    InternalDistributedSystem distributedSystem = InternalDistributedSystem.getAnyInstance();
+  @Override
+  public void setUp(BenchmarkConfiguration cfg) throws Exception {
+    super.setUp(cfg);
+
+    final ClientCache cache = ClientCacheFactory.getAnyInstance();
+    DistributedSystem distributedSystem = cache.getDistributedSystem();
     StatisticDescriptor
         statisticDescriptor = distributedSystem
         .createLongCounter("test", "test", "ops");
