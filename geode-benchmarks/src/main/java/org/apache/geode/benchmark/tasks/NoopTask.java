@@ -20,13 +20,39 @@ package org.apache.geode.benchmark.tasks;
 import java.io.Serializable;
 import java.util.Map;
 
+import org.openjdk.jmh.infra.Blackhole;
+import org.yardstickframework.BenchmarkConfiguration;
 import org.yardstickframework.BenchmarkDriverAdapter;
 
+import org.apache.geode.StatisticDescriptor;
+import org.apache.geode.Statistics;
+import org.apache.geode.StatisticsType;
+import org.apache.geode.cache.client.ClientCache;
+import org.apache.geode.cache.client.ClientCacheFactory;
+import org.apache.geode.distributed.DistributedSystem;
 
 public class NoopTask extends BenchmarkDriverAdapter implements Serializable {
+  private Statistics statistics;
+  private  int statisticsId;
+
+  @Override
+  public void setUp(BenchmarkConfiguration cfg) throws Exception {
+    super.setUp(cfg);
+
+    final ClientCache cache = ClientCacheFactory.getAnyInstance();
+    DistributedSystem distributedSystem = cache.getDistributedSystem();
+    StatisticDescriptor
+        statisticDescriptor = distributedSystem
+        .createLongCounter("test", "test", "ops");
+    StatisticsType statisticsType = distributedSystem.createType("test", "test", new StatisticDescriptor[]{statisticDescriptor});
+    statistics = distributedSystem.createAtomicStatistics(statisticsType);
+    statisticsId = statistics.nameToId("test");
+  }
 
   @Override
   public boolean test(Map<Object, Object> ctx) {
+    statistics.incLong(statisticsId, 1);
+    Blackhole.consumeCPU(10);
     return true;
   }
 }

@@ -21,6 +21,8 @@ package org.apache.geode.benchmark.tests;
 import static org.apache.geode.benchmark.topology.ClientServerTopology.Roles.CLIENT;
 
 import org.junit.jupiter.api.Test;
+import org.openjdk.jmh.annotations.Benchmark;
+import org.openjdk.jmh.infra.Blackhole;
 
 import org.apache.geode.benchmark.tasks.NoopTask;
 import org.apache.geode.benchmark.topology.ClientServerTopology;
