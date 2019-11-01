@@ -52,7 +52,7 @@ public class NoopTask extends BenchmarkDriverAdapter implements Serializable {
   @Override
   public boolean test(Map<Object, Object> ctx) {
     statistics.incLong(statisticsId, 1);
-    Blackhole.consumeCPU(5);
+    Blackhole.consumeCPU(1000);
     return true;
   }
 }
