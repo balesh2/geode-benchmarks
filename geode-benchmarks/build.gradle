@@ -66,7 +66,7 @@ task benchmark(type: Test) {
   exclude "**/*NonIndexedQueryBenchmark.class"
   exclude "**/PartitionedFunctionExecutionBenchmark.class"
   exclude "**/NoopBenchmark.class"
-  exclude "**/*AllBenchmark.class"
+//  exclude "**/*AllBenchmark.class"
   exclude "**/*LongBenchmark.class"
 
   forkEvery 1
