@@ -55,7 +55,7 @@ public class PartitionedPutAllBenchmark implements PerformanceTest {
   @Override
   public TestConfig configure() {
     TestConfig config = GeodeBenchmark.createConfig();
-    config.threads((int)Math.floor(Runtime.getRuntime().availableProcessors()/2));
+    config.threads(Runtime.getRuntime().availableProcessors());
     ClientServerTopology.configure(config);
     config.before(new CreatePartitionedRegion(), SERVER);
     config.before(new CreateClientProxyRegion(), CLIENT);
