@@ -69,7 +69,8 @@ public class PutAllTask extends BenchmarkDriverAdapter implements Serializable {
 //      key = keyRange.random();
 //      batch.put(key, new Portfolio(key));
 //    }
-    region.putAll(batches.get());
+    HashMap<Object, Object> b = batches.get();
+    region.putAll(b);
     return true;
   }
 }
