@@ -51,7 +51,7 @@ public class PutAllTask extends BenchmarkDriverAdapter implements Serializable {
     ClientCache cache = ClientCacheFactory.getAnyInstance();
     region = cache.getRegion("region");
 
-    ThreadLocal.withInitial(() -> {
+    batches = ThreadLocal.withInitial(() -> {
       final HashMap<Object, Object> batch = new HashMap<>(batchSize);
       for (int i = 0; i < batchSize; i++) {
         long key = keyRange.random();
@@ -69,8 +69,7 @@ public class PutAllTask extends BenchmarkDriverAdapter implements Serializable {
 //      key = keyRange.random();
 //      batch.put(key, new Portfolio(key));
 //    }
-    HashMap<Object, Object> b = batches.get();
-    region.putAll(b);
+    region.putAll(batches.get());
     return true;
   }
 }
