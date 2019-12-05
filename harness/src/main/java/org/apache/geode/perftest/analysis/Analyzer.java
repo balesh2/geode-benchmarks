@@ -98,6 +98,7 @@ public class Analyzer {
           }
         }
       }
+      writer.close();
     }
 
     if (isCI && isHighWaterCandidate && isSignificantlyBetter) {
