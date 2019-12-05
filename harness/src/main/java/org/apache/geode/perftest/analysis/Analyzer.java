@@ -16,7 +16,9 @@ package org.apache.geode.perftest.analysis;
 
 import static java.lang.Double.isNaN;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -70,6 +72,9 @@ public class Analyzer {
     benchmarkRunResult.writeResult(new PrintWriter(System.out));
     /* throw exc if failed? */
 
+    String errorFilePath = testResultArg + "/../failedTests";
+    BufferedWriter writer = new BufferedWriter(new FileWriter(errorFilePath, true));
+
     boolean isSignificantlyBetter = false;
     boolean isHighWaterCandidate = true;
     StringBuilder errorMessage = new StringBuilder();
@@ -90,6 +95,7 @@ public class Analyzer {
             isSignificantlyBetter = true;
           }
         }
+        writer.append(benchmarkResult.name);
       }
     }
 
