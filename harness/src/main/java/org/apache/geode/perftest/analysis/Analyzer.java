@@ -72,7 +72,7 @@ public class Analyzer {
     benchmarkRunResult.writeResult(new PrintWriter(System.out));
     /* throw exc if failed? */
 
-    String errorFilePath = testResultArg + "/../failedTests";
+    String errorFilePath = testResultArg + "/../../failedTests";
     BufferedWriter writer = new BufferedWriter(new FileWriter(errorFilePath, true));
 
     boolean isSignificantlyBetter = false;
@@ -84,18 +84,19 @@ public class Analyzer {
         if (isNaN(probeResult.baseline) || isNaN(probeResult.test)) {
           errorMessage.append("BENCHMARK FAILED: ").append(benchmarkResult.name)
               .append(" missing result file.\n");
+          writer.append(benchmarkResult.name + "\n");
         } else if (probeResult.description.equals("average latency")) {
           if (probeResult.getDifference() > 0) {
             isHighWaterCandidate = false;
             if (probeResult.getDifference() >= 0.05) {
               errorMessage.append("BENCHMARK FAILED: ").append(benchmarkResult.name)
                   .append(" average latency is 5% worse than baseline.\n");
+              writer.append(benchmarkResult.name + "\n");
             }
           } else if (probeResult.getDifference() <= -0.5) {
             isSignificantlyBetter = true;
           }
         }
-        writer.append(benchmarkResult.name);
       }
     }
 
