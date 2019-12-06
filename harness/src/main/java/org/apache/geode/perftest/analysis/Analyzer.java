@@ -107,7 +107,9 @@ public class Analyzer {
 
     if (errorMessage.length() > 0) {
       System.out.println(errorMessage);
-      System.exit(1);
+      if(!isCI) {
+        System.exit(1);
+      }
     }
 
   }
