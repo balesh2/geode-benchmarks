@@ -52,7 +52,6 @@ public class StartSniProxy implements Task {
   @Override
   public void run(TestContext context) throws Exception {
 
-    @SuppressWarnings("unchecked")
     final Map<InetAddress, String> namings =
         (Map<InetAddress, String>) context.getAttribute(HOST_NAMINGS_OFF_PLATFORM);
 

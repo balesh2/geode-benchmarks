@@ -54,7 +54,7 @@ public class PartitionedGetBenchmark implements PerformanceTest {
 
   @Override
   public TestConfig configure() {
-    TestConfig config = ClientServerBenchmark.createConfig();
+    TestConfig config = GeodeBenchmark.createConfig();
     before(config, new CreatePartitionedRegion(), SERVER);
     before(config, new CreateClientProxyRegion(), CLIENT);
     before(config, new PrePopulateRegion(keyRange), CLIENT);

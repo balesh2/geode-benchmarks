@@ -56,7 +56,6 @@ public class StartLocator implements Task {
    */
   protected void startLocator(final Properties properties, final int locatorPort,
       final TestContext context) throws IOException {
-    final Locator locator = Locator.startLocatorAndDS(locatorPort, null, properties);
-    context.setAttribute("LOCATOR", locator);
+    Locator.startLocatorAndDS(locatorPort, null, properties);
   }
 }

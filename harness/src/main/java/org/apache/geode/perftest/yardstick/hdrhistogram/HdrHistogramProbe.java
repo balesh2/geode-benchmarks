@@ -18,8 +18,6 @@
 package org.apache.geode.perftest.yardstick.hdrhistogram;
 
 
-import static java.util.concurrent.TimeUnit.SECONDS;
-
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -27,8 +25,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
 import org.HdrHistogram.Histogram;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.yardstickframework.BenchmarkConfiguration;
 import org.yardstickframework.BenchmarkDriver;
 import org.yardstickframework.BenchmarkExecutionAwareProbe;
@@ -47,10 +43,9 @@ import org.yardstickframework.BenchmarkTotalsOnlyProbe;
  * TODO consider writing per interval histograms using HistogramLogWriter
  */
 public class HdrHistogramProbe implements BenchmarkExecutionAwareProbe, BenchmarkTotalsOnlyProbe {
-  private static final Logger logger = LoggerFactory.getLogger(HdrHistogramProbe.class);
 
   private final int lower;
-  private long upper;
+  private final long upper;
   private final int numDigits;
   private final Clock clock;
   private final Consumer<Histogram> histogramConsumer;
@@ -82,8 +77,7 @@ public class HdrHistogramProbe implements BenchmarkExecutionAwareProbe, Benchmar
 
   @Override
   public void start(BenchmarkDriver drv, BenchmarkConfiguration cfg) throws Exception {
-    final int threads = cfg.threads();
-    upper = SECONDS.toNanos(cfg.duration());
+    int threads = cfg.threads();
     start(threads);
 
   }
@@ -96,17 +90,13 @@ public class HdrHistogramProbe implements BenchmarkExecutionAwareProbe, Benchmar
   }
 
   private void reset() {
-    final long timeStampMsec = System.currentTimeMillis();
     for (int i = 0; i < histograms.length; i++) {
       histograms[i] = new Histogram(lower, upper, numDigits);
-      histograms[i].setStartTimeStamp(timeStampMsec);
     }
   }
 
   @Override
-  public void stop() {
-    logger.info("Stopped");
-  }
+  public void stop() {}
 
   @Override
   public Collection<String> metaInfo() {
@@ -115,29 +105,16 @@ public class HdrHistogramProbe implements BenchmarkExecutionAwareProbe, Benchmar
 
   @Override
   public Collection<BenchmarkProbePoint> points() {
-    final Histogram aggregate = getHistogram();
+    Histogram aggregate = getHistogram();
     reset();
 
-    final double mean = aggregate.getMean();
-    final long percentile99 = aggregate.getValueAtPercentile(99);
+    double percentile50 = aggregate.getMean();
+    long percentile99 = aggregate.getValueAtPercentile(99);
 
-    final BenchmarkProbePoint point =
-        new BenchmarkProbePoint(aggregate.getEndTimeStamp(), new double[] {mean, percentile99});
+    BenchmarkProbePoint point =
+        new BenchmarkProbePoint(0, new double[] {percentile50, percentile99});
 
-    for (int r = 0; r < 5; ++r) {
-      try {
-        logger.info("Saving histogram. r={}", r);
-        histogramConsumer.accept(aggregate);
-      } catch (Exception e) {
-        logger.error("Failed to save histogram. aggregate={}", aggregate.getTag(), e);
-        try {
-          Thread.sleep(SECONDS.toMillis(1));
-        } catch (InterruptedException ignored) {
-        }
-        continue;
-      }
-      break;
-    }
+    histogramConsumer.accept(aggregate);
     return Collections.singleton(point);
   }
 
@@ -146,12 +123,13 @@ public class HdrHistogramProbe implements BenchmarkExecutionAwareProbe, Benchmar
 
   }
 
-  Histogram getHistogram() {
-    final Histogram aggregate = new Histogram(lower, upper, numDigits);
-    for (final Histogram histogram : histograms) {
+
+
+  public Histogram getHistogram() {
+    Histogram aggregate = new Histogram(lower, upper, numDigits);
+    for (Histogram histogram : histograms) {
       aggregate.add(histogram);
     }
-    aggregate.setEndTimeStamp(System.currentTimeMillis());
     return aggregate;
   }
 }

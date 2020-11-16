@@ -54,8 +54,7 @@ public class ExecuteFilteredFunction extends BenchmarkDriverAdapter implements S
   @Override
   public boolean test(Map<Object, Object> ctx) {
     final Set<Long> filterSet = Collections.singleton(keyRange.random());
-    @SuppressWarnings("unchecked")
-    final ResultCollector<?, ?> resultCollector = FunctionService
+    final ResultCollector resultCollector = FunctionService
         .onRegion(region)
         .withFilter(filterSet)
         .execute(function);
