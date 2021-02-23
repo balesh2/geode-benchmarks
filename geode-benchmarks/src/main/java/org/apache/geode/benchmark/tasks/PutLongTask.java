@@ -19,7 +19,6 @@ package org.apache.geode.benchmark.tasks;
 
 import java.io.Serializable;
 import java.util.Map;
-import java.util.concurrent.ThreadLocalRandom;
 
 import org.yardstickframework.BenchmarkConfiguration;
 import org.yardstickframework.BenchmarkDriverAdapter;
@@ -49,7 +48,8 @@ public class PutLongTask extends BenchmarkDriverAdapter implements Serializable 
   @Override
   public boolean test(Map<Object, Object> ctx) {
     long key = keyRange.random();
-    region.put(key, ThreadLocalRandom.current().nextLong());
+    region.put(key,
+        "a long string to increase payload size. I think it needs to be longer than that one sentence");
     return true;
   }
 }
