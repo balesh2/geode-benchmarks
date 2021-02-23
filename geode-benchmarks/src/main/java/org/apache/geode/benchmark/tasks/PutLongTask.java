@@ -48,8 +48,7 @@ public class PutLongTask extends BenchmarkDriverAdapter implements Serializable 
   @Override
   public boolean test(Map<Object, Object> ctx) {
     long key = keyRange.random();
-    region.put(key,
-        "a long string to increase payload size. I think it needs to be longer than that one sentence");
+    region.put(key, 1);
     return true;
   }
 }
